@@ -1,12 +1,15 @@
 package dev.dluks.minervamoney.exceptions;
 
 import dev.dluks.minervamoney.dtos.CustomErrorResponse;
+import dev.dluks.minervamoney.dtos.ValidationErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -33,6 +36,17 @@ public class CustomExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<CustomErrorResponse> handleInvalidCredentialsException(
             InvalidCredentialsException e,
+            HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
+        return ResponseEntity.status(status).body(error);
+
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<CustomErrorResponse> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e,
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -72,6 +86,26 @@ public class CustomExceptionHandler {
         CustomErrorResponse error = createErrorResponse("Expired token", request, status);
         return ResponseEntity.status(status).body(error);
 
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomErrorResponse> validation(
+            MethodArgumentNotValidException e,
+            HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ValidationErrorResponse error = new ValidationErrorResponse(
+                Instant.now(),
+                status.value(),
+                "Validation error",
+                request.getRequestURI()
+        );
+
+        e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            error.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+
+        return ResponseEntity.status(status).body(error);
     }
 
     @ExceptionHandler(Exception.class)
