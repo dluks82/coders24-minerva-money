@@ -2,12 +2,15 @@ package dev.dluks.minervamoney.services;
 
 import dev.dluks.minervamoney.dtos.LoginUserDTO;
 import dev.dluks.minervamoney.dtos.RegisterUserDTO;
+import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +31,21 @@ public class AuthenticationService {
 
     }
 
-    public User authenticate(LoginUserDTO dto) {
-        return userRepository.findByEmail(dto.getEmail())
+    public CustomUserDetails authenticate(LoginUserDTO dto) {
+        User credentials = userRepository.findByEmail(dto.getEmail())
                 .filter(user -> passwordEncoder.matches(dto.getPassword(), user.getPassword()))
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+
+        return new CustomUserDetails(
+                credentials.getId(),
+                credentials.getEmail(),
+                credentials.getPassword(),
+                List.of(),
+                true,
+                true,
+                true,
+                true
+        );
     }
 
 }

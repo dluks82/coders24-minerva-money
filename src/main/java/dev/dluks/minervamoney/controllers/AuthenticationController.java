@@ -2,6 +2,7 @@ package dev.dluks.minervamoney.controllers;
 
 import dev.dluks.minervamoney.dtos.LoginUserDTO;
 import dev.dluks.minervamoney.dtos.RegisterUserDTO;
+import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.responses.LoginResponse;
 import dev.dluks.minervamoney.services.AuthenticationService;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> authenticate(
             @RequestBody LoginUserDTO dto) {
 
-        User authenticatedUser = authenticationService.authenticate(dto);
+        CustomUserDetails authenticatedUser = authenticationService.authenticate(dto);
 
         String token = jwtService.generateToken(authenticatedUser);
 

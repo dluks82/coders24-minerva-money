@@ -1,6 +1,6 @@
 package dev.dluks.minervamoney.controllers;
 
-import dev.dluks.minervamoney.entities.User;
+import dev.dluks.minervamoney.entities.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,11 +17,11 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<CustomUserDetails> authenticatedUser() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User currentUser = (User) authentication.getPrincipal();
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
         return ResponseEntity.ok(currentUser);
 
