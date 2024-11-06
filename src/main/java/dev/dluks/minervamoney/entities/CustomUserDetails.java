@@ -1,8 +1,6 @@
 package dev.dluks.minervamoney.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,9 +11,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CustomUserDetails implements UserDetails {
 
     private final UUID id;
+    private final String fullName;
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
