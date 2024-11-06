@@ -9,6 +9,7 @@ import dev.dluks.minervamoney.services.AuthenticationService;
 import dev.dluks.minervamoney.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<RegisterUserResponseDTO> register(
-            @RequestBody RegisterUserRequestDTO dto) {
+            @Validated @RequestBody RegisterUserRequestDTO dto) {
 
         UUID uuid = authenticationService.signup(dto);
 
@@ -39,7 +40,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginUserResponseDTO> authenticate(
-            @RequestBody LoginUserRequestDTO dto) {
+            @Validated @RequestBody LoginUserRequestDTO dto) {
 
         CustomUserDetails authenticatedUser = authenticationService.authenticate(dto);
 

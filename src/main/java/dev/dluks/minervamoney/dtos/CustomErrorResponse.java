@@ -10,6 +10,7 @@ import java.time.Instant;
 @Getter
 @Builder
 public class CustomErrorResponse {
+
     private Instant timestamp;
     private String error;
     private String path;
