@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
@@ -34,10 +33,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role role;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
@@ -48,11 +43,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
-
-        return List.of(authority);
-
+        return List.of();
     }
 
     @Override
