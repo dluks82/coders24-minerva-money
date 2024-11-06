@@ -1,0 +1,71 @@
+@startuml MinervaMoney
+
+    User "1" --> "1" Account : owns
+    Account "1" --> "*" Transaction : has
+    Transaction "*" --> "1" Category : belongs to
+    Account "1" --> "*" MonthlyBalance : has
+    User --> "*" Category : creates
+
+    class User {
+        -UUID id
+        -String username
+        -String email
+        -String password
+        -LocalDateTime createdAt
+        -Boolean active
+        +createCategory()
+        +getTransactions()
+        +getBalance()
+    }
+
+    class Account {
+        -UUID id
+        -String name
+        -BigDecimal currentBalance
+        -LocalDateTime createdAt
+        +addTransaction()
+        +calculateBalance()
+        +closeMonth()
+    }
+
+    class Transaction {
+        -UUID id
+        -BigDecimal amount
+        -TransactionType type
+        -String description
+        -LocalDateTime date
+        -LocalDateTime createdAt
+        -LocalDateTime deletedAt
+        -String deletionReason
+        -Boolean deleted
+        +softDelete(reason)
+        +updateTransaction()
+    }
+
+    class Category {
+        -Long id
+        -String name
+        -String description
+        -Boolean isDefault
+        -Boolean active
+        -LocalDateTime createdAt
+        +updateCategory()
+        +deactivateCategory()
+    }
+
+    class MonthlyBalance {
+        -Long id
+        -Integer year
+        -Integer month
+        -BigDecimal finalBalance
+        -LocalDateTime closedAt
+        +reopenMonth()
+    }
+
+    class TransactionType {
+        <<enumeration>>
+        INCOME
+        EXPENSE
+    }
+
+@enduml
