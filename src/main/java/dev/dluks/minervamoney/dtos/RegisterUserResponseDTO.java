@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class LoginUserDTO {
+import java.util.UUID;
 
-    private String email;
-    private String password;
+@Setter
+@Getter
+@NoArgsConstructor
+public class RegisterUserResponseDTO {
+
+    private UUID id;
 
 }

@@ -30,15 +30,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findById(userUUID)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
 
-        return new CustomUserDetails(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword(),
-                List.of(),
-                true,
-                true,
-                true,
-                true
-        );
+        return CustomUserDetails.builder()
+                .id(user.getId())
+                .fullName(user.getFullName())
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .authorities(List.of())
+                .isAccountNonExpired(true)
+                .isAccountNonLocked(true)
+                .isCredentialsNonExpired(true)
+                .isEnabled(true)
+                .build();
+
     }
 }

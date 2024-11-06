@@ -25,12 +25,7 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                e.getMessage(),
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
         return ResponseEntity.status(status).body(error);
 
     }
@@ -41,12 +36,7 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                e.getMessage(),
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
         return ResponseEntity.status(status).body(error);
 
     }
@@ -57,12 +47,7 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                "Invalid token",
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
         return ResponseEntity.status(status).body(error);
 
     }
@@ -73,12 +58,7 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                "Invalid token",
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
         return ResponseEntity.status(status).body(error);
 
     }
@@ -89,12 +69,7 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                "Invalid token",
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse("Expired token", request, status);
         return ResponseEntity.status(status).body(error);
 
     }
@@ -105,18 +80,22 @@ public class CustomExceptionHandler {
             HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        CustomErrorResponse error = new CustomErrorResponse(
-                Instant.now(),
-                e.getMessage(),
-                request.getRequestURI(),
-                status.value()
-        );
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
 
         e.printStackTrace();
         logger.severe(e.getMessage());
 
         return ResponseEntity.status(status).body(error);
 
+    }
+
+    private static CustomErrorResponse createErrorResponse(String e, HttpServletRequest request, HttpStatus status) {
+        return CustomErrorResponse.builder()
+                .timestamp(Instant.now())
+                .error(e)
+                .path(request.getRequestURI())
+                .status(status.value())
+                .build();
     }
 
 }
