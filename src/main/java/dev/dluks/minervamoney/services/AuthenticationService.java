@@ -4,6 +4,8 @@ import dev.dluks.minervamoney.dtos.LoginUserDTO;
 import dev.dluks.minervamoney.dtos.RegisterUserDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.User;
+import dev.dluks.minervamoney.exceptions.InvalidCredentialsException;
+import dev.dluks.minervamoney.exceptions.UserAlreadyExistsException;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,10 @@ public class AuthenticationService {
 
     public User signup(RegisterUserDTO dto) {
 
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+
         User user = new User();
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());
@@ -34,7 +40,7 @@ public class AuthenticationService {
     public CustomUserDetails authenticate(LoginUserDTO dto) {
         User credentials = userRepository.findByEmail(dto.getEmail())
                 .filter(user -> passwordEncoder.matches(dto.getPassword(), user.getPassword()))
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
         return new CustomUserDetails(
                 credentials.getId(),
