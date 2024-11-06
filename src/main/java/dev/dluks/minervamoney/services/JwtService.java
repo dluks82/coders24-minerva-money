@@ -1,11 +1,11 @@
 package dev.dluks.minervamoney.services;
 
+import dev.dluks.minervamoney.entities.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -23,24 +23,24 @@ public class JwtService {
     @Value("${security.jwt.expiration}")
     private Long jwtExpiration;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         return buildToken(new HashMap<>(), userDetails, jwtExpiration);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, CustomUserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     private String buildToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails,
+            CustomUserDetails userDetails,
             long expiration
     ) {
 
         return Jwts.builder()
                 .claims()
                 .add(extraClaims)
-                .subject(userDetails.getUsername())
+                .subject(userDetails.getId().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .issuer("minerva-money")
                 .expiration(new Date(System.currentTimeMillis() + expiration))
@@ -48,14 +48,13 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
 
-
     }
 
     public long getExpirationTime() {
         return jwtExpiration;
     }
 
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -67,9 +66,9 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    public Boolean isTokenValid(String token, UserDetails userDetails) {
-        final String tokenUsername = extractUsername(token);
-        return tokenUsername.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public Boolean isTokenValid(String token, CustomUserDetails userDetails) {
+        final String tokenUserId = extractUserId(token);
+        return tokenUserId.equals(userDetails.getId().toString()) && !isTokenExpired(token);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
