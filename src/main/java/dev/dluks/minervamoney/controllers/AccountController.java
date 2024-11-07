@@ -1,7 +1,9 @@
 package dev.dluks.minervamoney.controllers;
 
 import dev.dluks.minervamoney.dtos.account.AccountDTO;
+import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.services.AccountService;
+import dev.dluks.minervamoney.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +21,18 @@ public class AccountController {
     @Autowired
     private final AccountService accountService;
 
+    @Autowired
+    private final UserService userService;
+
     @GetMapping("/")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<AccountDTO>> getAllAccounts() {
-        return ResponseEntity.ok(accountService.getAllAccounts());
-    }
+    public ResponseEntity<List<AccountDTO>> getAccountsById() {
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<AccountDTO> getAccountById(@PathVariable(name = "userId") UUID userId) {
-        return ResponseEntity.ok(accountService.getAccountByUserId(userId));
+        UserProfileDTO userProfileDTO = userService.authenticatedUserProfile();
+        UUID userId = userProfileDTO.getId();
+
+        return ResponseEntity.ok(accountService.getAccountsByUserId(userId));
+
     }
 
 }

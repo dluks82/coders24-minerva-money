@@ -39,9 +39,11 @@ public class AccountService {
 
     }
 
-    public AccountDTO getAccountByUserId(UUID userId) {
-        Account account = accountRepository.findAccountByUserId(userId).orElse(null);
-        return accountMapper.toAccountDTO(account);
+    public List<AccountDTO> getAccountsByUserId(UUID userId) {
+        List<Account> accounts = accountRepository.findAccountsByUserId(userId);
+        return accounts.stream()
+                .map(accountMapper::toAccountDTO)
+                .toList();
     }
 
     public List<AccountDTO> getAllAccounts() {
