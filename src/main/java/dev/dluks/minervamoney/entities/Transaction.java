@@ -53,8 +53,9 @@ public class Transaction {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    @Column(name="account_id", nullable = false)
-    private UUID accountId;
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     @Column(name="category_id", nullable = false)
     private Long categoryId;
