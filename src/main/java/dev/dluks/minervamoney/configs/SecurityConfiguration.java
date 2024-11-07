@@ -49,7 +49,7 @@ public class SecurityConfiguration {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
