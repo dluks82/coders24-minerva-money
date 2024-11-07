@@ -1,6 +1,6 @@
 package dev.dluks.minervamoney.controllers;
 
-import dev.dluks.minervamoney.dtos.UserProfileDTO;
+import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

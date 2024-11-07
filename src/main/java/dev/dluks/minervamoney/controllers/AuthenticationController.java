@@ -1,9 +1,9 @@
 package dev.dluks.minervamoney.controllers;
 
-import dev.dluks.minervamoney.dtos.LoginUserRequestDTO;
-import dev.dluks.minervamoney.dtos.LoginUserResponseDTO;
-import dev.dluks.minervamoney.dtos.RegisterUserRequestDTO;
-import dev.dluks.minervamoney.dtos.RegisterUserResponseDTO;
+import dev.dluks.minervamoney.dtos.user.LoginUserRequestDTO;
+import dev.dluks.minervamoney.dtos.user.LoginUserResponseDTO;
+import dev.dluks.minervamoney.dtos.user.RegisterUserRequestDTO;
+import dev.dluks.minervamoney.dtos.user.RegisterUserResponseDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.services.AuthenticationService;
 import dev.dluks.minervamoney.services.JwtService;
