@@ -1,4 +1,4 @@
-package dev.dluks.minervamoney.dtos;
+package dev.dluks.minervamoney.dtos.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

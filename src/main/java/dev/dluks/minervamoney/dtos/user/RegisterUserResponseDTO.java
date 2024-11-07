@@ -1,4 +1,4 @@
-package dev.dluks.minervamoney.dtos;
+package dev.dluks.minervamoney.dtos.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

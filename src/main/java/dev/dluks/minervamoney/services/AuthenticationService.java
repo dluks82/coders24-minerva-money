@@ -1,7 +1,7 @@
 package dev.dluks.minervamoney.services;
 
-import dev.dluks.minervamoney.dtos.LoginUserRequestDTO;
-import dev.dluks.minervamoney.dtos.RegisterUserRequestDTO;
+import dev.dluks.minervamoney.dtos.user.LoginUserRequestDTO;
+import dev.dluks.minervamoney.dtos.user.RegisterUserRequestDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.exceptions.InvalidCredentialsException;

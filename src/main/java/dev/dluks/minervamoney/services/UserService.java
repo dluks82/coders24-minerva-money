@@ -1,6 +1,6 @@
 package dev.dluks.minervamoney.services;
 
-import dev.dluks.minervamoney.dtos.UserProfileDTO;
+import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
