@@ -35,7 +35,8 @@ public class TransactionService {
 
     @Transactional(readOnly = true)
     public List<TransactionDTO> getAllTransactions(UUID accountId) {
-        contaPerteceAoUsuario(accountId);
+        accountExists(accountId);
+        accountBelongsToUser(accountId);
 
         return transactionRepository.findByAccountIdAndDeletedFalse(accountId)
                 .stream()
@@ -44,9 +45,12 @@ public class TransactionService {
     }
 
 
+
+
     @Transactional(readOnly = true)
     public TransactionDTO getTransactionById(UUID accountId, UUID transactionId ) {
-        contaPerteceAoUsuario(accountId);
+        accountExists(accountId);
+        accountBelongsToUser(accountId);
 
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new EntityNotFoundException("Transação não existe"));
@@ -57,7 +61,8 @@ public class TransactionService {
     public TransactionDTO createTransaction(
 
             @RequestBody TransactionRequestDTO   request, UUID accountId) {
-        var account = contaPerteceAoUsuario(accountId);
+        accountExists(accountId);
+        var account = accountBelongsToUser(accountId);
         Transaction transaction = modelMapper.map(request, Transaction.class);
         transaction.setCategoryId(1L);
         transaction.setAccount(account);
@@ -69,7 +74,8 @@ public class TransactionService {
 
     @Transactional
     public void softDeleteTransaction(UUID id, String reason, UUID accountId) {
-        contaPerteceAoUsuario(accountId);
+        accountExists(accountId);
+        accountBelongsToUser(accountId);
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Transaction not found"));
 
@@ -77,7 +83,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    private Account contaPerteceAoUsuario(UUID accountId) {
+    private Account accountBelongsToUser(UUID accountId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
@@ -87,6 +93,11 @@ public class TransactionService {
             throw new EntityNotFoundException("A conta não pertense ao usuario!");
         }
         return account.orElse(null);
+    }
+
+    private void accountExists(UUID accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Conta nao Existe"));
     }
 
 
