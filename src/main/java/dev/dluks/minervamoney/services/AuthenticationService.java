@@ -9,7 +9,6 @@ import dev.dluks.minervamoney.exceptions.InvalidCredentialsException;
 import dev.dluks.minervamoney.exceptions.UserAlreadyExistsException;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
     AccountService accountService;
 
     public UUID signup(RegisterUserRequestDTO dto) {
