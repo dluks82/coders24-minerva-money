@@ -1,5 +1,6 @@
 package dev.dluks.minervamoney.dtos.user;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class RegisterUserRequestDTO {
     private String fullName;
 
     @NotEmpty(message = "Email is required")
-    @Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$", message = "Invalid email format")
+    @Email(message = "Invalid email")
     private String email;
 
     @NotEmpty(message = "Password is required")
