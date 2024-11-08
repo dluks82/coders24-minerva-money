@@ -8,7 +8,6 @@ import dev.dluks.minervamoney.mappers.AccountMapper;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
     private final AccountRepository accountRepository;
-
-    @Autowired
     private final AccountMapper accountMapper;
-
-    @Autowired
     private final UserRepository userRepository;
 
     public Account createAccount(RegisterAccountRequestDTO accountRequestDTO) {
