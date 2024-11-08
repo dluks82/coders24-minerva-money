@@ -32,12 +32,22 @@ public class Category {
     private Long id;
     private String name;
     private String description;
-    private Boolean active;
-    private LocalDateTime createdAt;
+    private Boolean active = true;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner; // "null" se for uma "categoria base"
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Category(String name, String description, User user) {
+        this(name, description);
+        this.owner = user;
+    }
 
     public boolean isBaseCategory() {
         return owner == null;
