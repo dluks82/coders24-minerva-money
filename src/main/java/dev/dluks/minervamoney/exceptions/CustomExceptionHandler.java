@@ -1,7 +1,7 @@
 package dev.dluks.minervamoney.exceptions;
 
-import dev.dluks.minervamoney.dtos.CustomErrorResponse;
-import dev.dluks.minervamoney.dtos.ValidationErrorResponse;
+import dev.dluks.minervamoney.dtos.response.CustomErrorResponse;
+import dev.dluks.minervamoney.dtos.response.ValidationErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -101,9 +101,12 @@ public class CustomExceptionHandler {
                 request.getRequestURI()
         );
 
-        e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            error.addError(fieldError.getField(), fieldError.getDefaultMessage());
-        });
+        e.getBindingResult()
+                .getFieldErrors()
+                .forEach(
+                        fieldError -> error
+                                .addError(fieldError.getField(),
+                                        fieldError.getDefaultMessage()));
 
         return ResponseEntity.status(status).body(error);
     }

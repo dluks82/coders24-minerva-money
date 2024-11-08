@@ -1,4 +1,4 @@
-package dev.dluks.minervamoney.dtos;
+package dev.dluks.minervamoney.dtos.response;
 
 import lombok.Getter;
 import lombok.Setter;
