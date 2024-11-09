@@ -21,8 +21,8 @@ public class UserService {
     private UserMapper userMapper;
 
     public UserProfileDTO authenticatedUserProfile() {
-
-        CustomUserDetails currentUser = getUserDetails();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();;
 
         return UserProfileDTO.builder()
                 .id(currentUser.getId())
@@ -32,18 +32,12 @@ public class UserService {
     }
 
     public Set<Category> getUserCategories() {
-        User user = userMapper.toUser(getUserDetails());
+        User user = userMapper.toUser(authenticatedUserProfile());
         return categoryService.getCustomCategoriesByUser(user);
     }
 
     public void createUserCustomCategory(CategoryDTO dto) {
-        User user = userMapper.toUser(getUserDetails());
+        User user = userMapper.toUser(authenticatedUserProfile());
         Category customCategory = new Category(dto.getName(), dto.getDescription(), user);
     }
-
-    private static CustomUserDetails getUserDetails() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (CustomUserDetails) authentication.getPrincipal();
-    }
-
 }
