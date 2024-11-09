@@ -6,6 +6,7 @@ import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
 import dev.dluks.minervamoney.exceptions.CustomExceptionHandler;
 import dev.dluks.minervamoney.services.TransactionService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
+@Tag(name = "Transações", description = "Operações de gerenciamento de transações financeiras, incluindo criação, consulta, e exclusão de transações para contas específicas.")
 public class TransactionController {
 
     private final TransactionService transactionService;

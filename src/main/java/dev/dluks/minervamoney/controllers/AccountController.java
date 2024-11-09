@@ -7,6 +7,7 @@ import dev.dluks.minervamoney.services.AccountBalanceService;
 import dev.dluks.minervamoney.services.AccountService;
 import dev.dluks.minervamoney.services.MonthlyBalanceConsolidationService;
 import dev.dluks.minervamoney.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
+@Tag(name = "Contas", description = "Gerenciamento de contas, incluindo criação, consulta de saldo, e consolidação de balanço mensal.")
 public class AccountController {
 
     private final AccountService accountService;
