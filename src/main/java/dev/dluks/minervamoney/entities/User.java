@@ -53,16 +53,4 @@ public class User {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Category> customCategories = new HashSet<>();
-
-    public void createCategory(String name, String description) {
-        Category customCategory = new Category(name, description, this);
-        customCategories.add(customCategory);
-    }
-
-    public Set<Category> getAllCategories(Set<Category> baseCategories) {
-        Set<Category> allCategories = new HashSet<>(baseCategories);
-        allCategories.addAll(customCategories);
-        return allCategories;
-    }
-
 }

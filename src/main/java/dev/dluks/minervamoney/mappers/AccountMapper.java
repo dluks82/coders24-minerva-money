@@ -16,6 +16,6 @@ public interface AccountMapper {
 
     AccountDTO toAccountDTO(Account account);
 
-    UserProfileDTO toUserProfileDTO(User user);
+
 
 }
