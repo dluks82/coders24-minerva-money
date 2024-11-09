@@ -7,6 +7,7 @@ import dev.dluks.minervamoney.dtos.user.RegisterUserResponseDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.services.AuthenticationService;
 import dev.dluks.minervamoney.services.JwtService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Autenticação", description = "Gerenciamento de autenticação, incluindo cadastro de novos usuários e login.")
 public class AuthenticationController {
 
     private final JwtService jwtService;
