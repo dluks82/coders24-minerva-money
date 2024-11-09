@@ -45,10 +45,8 @@ public class TransactionService {
     }
 
 
-
-
     @Transactional(readOnly = true)
-    public TransactionDTO getTransactionById(UUID accountId, UUID transactionId ) {
+    public TransactionDTO getTransactionById(UUID accountId, UUID transactionId) {
         accountExists(accountId);
         accountBelongsToUser(accountId);
 
@@ -60,7 +58,7 @@ public class TransactionService {
     @Transactional
     public TransactionDTO createTransaction(
 
-            @RequestBody TransactionRequestDTO   request, UUID accountId) {
+            @RequestBody TransactionRequestDTO request, UUID accountId) {
         accountExists(accountId);
         var account = accountBelongsToUser(accountId);
         Transaction transaction = modelMapper.map(request, Transaction.class);
@@ -70,6 +68,29 @@ public class TransactionService {
 
         transaction = transactionRepository.save(transaction);
         return modelMapper.map(transaction, TransactionDTO.class);
+    }
+
+    @Transactional
+    public List<TransactionDTO> createTransactions(
+            List<TransactionRequestDTO> requests,
+            UUID accountId) {
+        accountExists(accountId);
+        var account = accountBelongsToUser(accountId);
+
+        List<Transaction> transactions = requests.stream()
+                .map(request -> {
+                    Transaction transaction = modelMapper.map(request, Transaction.class);
+                    transaction.setCategoryId(1L);
+                    transaction.setAccount(account);
+                    return transaction;
+                })
+                .collect(Collectors.toList());
+
+        transactions = transactionRepository.saveAll(transactions);
+
+        return transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -89,7 +110,7 @@ public class TransactionService {
 
         Optional<Account> account = accountRepository.findById(accountId);
 
-        if(account.isPresent() && !currentUser.getId().toString().equals(account.get().getUser().getId().toString())) {
+        if (account.isPresent() && !currentUser.getId().toString().equals(account.get().getUser().getId().toString())) {
             throw new EntityNotFoundException("A conta não pertense ao usuario!");
         }
         return account.orElse(null);

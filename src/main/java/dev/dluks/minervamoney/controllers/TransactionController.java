@@ -45,6 +45,16 @@ public class TransactionController {
         );
     }
 
+    @PostMapping("/{accountId}/transactions/batch")
+    public ResponseEntity<List<TransactionDTO>> createTransactions(
+            @PathVariable UUID accountId,
+            @Valid @RequestBody List<TransactionRequestDTO> requests) {
+        return new ResponseEntity<>(
+                transactionService.createTransactions(requests, accountId),
+                HttpStatus.CREATED
+        );
+    }
+
 
     @DeleteMapping("/{accountId}/transactions/{transactionId}")
     public ResponseEntity<Void> deleteTransaction(

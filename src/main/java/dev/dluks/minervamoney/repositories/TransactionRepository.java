@@ -16,4 +16,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             UUID accountId,
             LocalDate startDate
     );
+
+    List<Transaction> findByAccountIdAndDateBetweenAndDeletedFalse (
+            UUID accountId,
+            LocalDate startDate,
+            LocalDate endDate
+    );
 }
