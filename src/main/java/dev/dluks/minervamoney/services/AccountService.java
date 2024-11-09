@@ -43,8 +43,14 @@ public class AccountService {
     public List<AccountDTO> getAllAccounts() {
         List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
-            .map(accountMapper::toAccountDTO)
-            .toList();
+                .map(accountMapper::toAccountDTO)
+                .toList();
+    }
+
+    public AccountDTO getAccountById(UUID accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+        return accountMapper.toAccountDTO(account);
     }
 
 }
