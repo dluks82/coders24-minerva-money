@@ -2,14 +2,17 @@ package dev.dluks.minervamoney.controllers;
 
 import dev.dluks.minervamoney.dtos.account.AccountDTO;
 import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
+import dev.dluks.minervamoney.entities.CustomUserDetails;
+import dev.dluks.minervamoney.services.AccountBalanceService;
 import dev.dluks.minervamoney.services.AccountService;
 import dev.dluks.minervamoney.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,13 +21,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
     private final AccountService accountService;
-
-    @Autowired
+    private final AccountBalanceService accountBalanceService;
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping()
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<AccountDTO>> getAccountsById() {
 
@@ -33,6 +34,16 @@ public class AccountController {
 
         return ResponseEntity.ok(accountService.getAccountsByUserId(userId));
 
+    }
+
+    @GetMapping("/{accountId}/balance")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<BigDecimal> getAccountBalance(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @PathVariable UUID accountId) {
+
+        return ResponseEntity.ok(accountBalanceService
+                .calculateCurrentBalance(currentUser, accountId));
     }
 
 }
