@@ -1,4 +1,4 @@
-package dev.dluks.minervamoney.services;
+package dev.dluks.minervamoney.services.auth;
 
 import dev.dluks.minervamoney.dtos.account.RegisterAccountRequestDTO;
 import dev.dluks.minervamoney.dtos.user.LoginUserRequestDTO;
@@ -8,6 +8,7 @@ import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.exceptions.InvalidCredentialsException;
 import dev.dluks.minervamoney.exceptions.UserAlreadyExistsException;
 import dev.dluks.minervamoney.repositories.UserRepository;
+import dev.dluks.minervamoney.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;

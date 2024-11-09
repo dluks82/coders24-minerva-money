@@ -1,8 +1,8 @@
 package dev.dluks.minervamoney.configs;
 
 import dev.dluks.minervamoney.entities.CustomUserDetails;
-import dev.dluks.minervamoney.services.CustomUserDetailsService;
-import dev.dluks.minervamoney.services.JwtService;
+import dev.dluks.minervamoney.services.auth.CustomUserDetailsService;
+import dev.dluks.minervamoney.services.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
