@@ -2,6 +2,7 @@ package dev.dluks.minervamoney.controllers;
 
 import dev.dluks.minervamoney.dtos.account.AccountDTO;
 import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
+import dev.dluks.minervamoney.entities.Account;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.services.AccountBalanceService;
 import dev.dluks.minervamoney.services.AccountService;
@@ -38,12 +39,18 @@ public class AccountController {
 
     @GetMapping("/{accountId}/balance")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<BigDecimal> getAccountBalance(
+    public ResponseEntity<AccountDTO> getAccountBalance(
             @AuthenticationPrincipal CustomUserDetails currentUser,
             @PathVariable UUID accountId) {
 
-        return ResponseEntity.ok(accountBalanceService
-                .calculateCurrentBalance(currentUser, accountId));
+        AccountDTO accountDTO = accountService.getAccountById(accountId);
+
+        BigDecimal currentBalance = accountBalanceService
+                .calculateCurrentBalance(currentUser, accountId);
+
+        accountDTO.setCurrentBalance(currentBalance);
+
+        return ResponseEntity.ok(accountDTO);
     }
 
 }
