@@ -6,8 +6,7 @@ import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.mappers.UserMapper;
-import dev.dluks.minervamoney.mappers.UserMapperImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,15 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private CategoryService categoryService;
-
-    private final UserMapper userMapper = new UserMapperImpl();
+    private final CategoryService categoryService;
+    private final UserMapper userMapper;
 
     public UserProfileDTO authenticatedUserProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();;
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
         return UserProfileDTO.builder()
                 .id(currentUser.getId())
