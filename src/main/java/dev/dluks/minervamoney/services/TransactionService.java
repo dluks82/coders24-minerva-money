@@ -5,10 +5,12 @@ import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
 import dev.dluks.minervamoney.entities.Account;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.Transaction;
+import dev.dluks.minervamoney.exceptions.AccountNotFoundException;
+import dev.dluks.minervamoney.exceptions.TransactionNotFoundException;
+import dev.dluks.minervamoney.exceptions.UnauthorizedAccountAccessException;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.TransactionRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -18,11 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +51,7 @@ public class TransactionService {
         accountBelongsToUser(accountId);
 
         Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new EntityNotFoundException("Transação não existe"));
+                .orElseThrow(() -> new TransactionNotFoundException("Transação não existe"));
         return modelMapper.map(transaction, TransactionDTO.class);
     }
 
@@ -98,7 +98,7 @@ public class TransactionService {
         accountExists(accountId);
         accountBelongsToUser(accountId);
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Transaction not found"));
+                .orElseThrow(() -> new TransactionNotFoundException("Transação não encontrada!"));
 
         transaction.softDelete(reason);
         transactionRepository.save(transaction);
@@ -111,14 +111,14 @@ public class TransactionService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent() && !currentUser.getId().toString().equals(account.get().getUser().getId().toString())) {
-            throw new EntityNotFoundException("A conta não pertense ao usuario!");
+            throw new UnauthorizedAccountAccessException("Essa conta não pertence ao usuário autenticado.");
         }
         return account.orElse(null);
     }
 
     private void accountExists(UUID accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new EntityNotFoundException("Conta nao Existe"));
+                .orElseThrow(() -> new AccountNotFoundException("Conta não existe!"));
     }
 
 
