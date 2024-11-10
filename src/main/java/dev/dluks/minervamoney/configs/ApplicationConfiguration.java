@@ -1,6 +1,5 @@
 package dev.dluks.minervamoney.configs;
 
-import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfiguration {
 
-    private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
 
     @Bean
