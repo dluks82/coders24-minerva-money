@@ -35,4 +35,9 @@ public class CategoryService {
         category.setCreatedAt(LocalDateTime.now());
         return categoryMapper.toDto(categoryRepository.save(category));
     }
+
+    @Transactional
+    public CategoryDTO createCustomCategory(Category categoryDTO) {
+        return categoryMapper.toDto(categoryRepository.save(categoryDTO));
+    }
 }
