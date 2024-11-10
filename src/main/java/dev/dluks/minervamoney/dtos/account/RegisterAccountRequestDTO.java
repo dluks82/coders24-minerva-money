@@ -10,6 +10,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RegisterAccountRequestDTO {
 
     @NotEmpty(message = "Name is required")

@@ -57,9 +57,13 @@ public class AuthenticationService {
         User savedUser = userRepository.save(user);
         UUID userId = savedUser.getId();
 
-        RegisterAccountRequestDTO registerAccountRequestDTO = new RegisterAccountRequestDTO(
-                "default", BigDecimal.ZERO, userId
-        );
+        RegisterAccountRequestDTO registerAccountRequestDTO =
+            RegisterAccountRequestDTO.builder()
+                .name("default")
+                .currentBalance(BigDecimal.ZERO)
+                .user_id(userId)
+                .build();
+
         accountService.createAccount(registerAccountRequestDTO);
 
         return userId;
