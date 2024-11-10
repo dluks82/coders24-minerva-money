@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.UUID;
 
 @RestController
@@ -29,7 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<RegisterUserResponseDTO> register(
-            @Validated @RequestBody RegisterUserRequestDTO dto) {
+            @Validated @RequestBody RegisterUserRequestDTO dto) throws RoleNotFoundException {
 
         UUID uuid = authenticationService.signup(dto);
 
