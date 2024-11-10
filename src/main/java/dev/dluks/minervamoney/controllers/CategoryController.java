@@ -6,6 +6,7 @@ import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.mappers.CategoryMapper;
 import dev.dluks.minervamoney.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 @RequiredArgsConstructor
+@Tag(name = "Categorias", description = "Operações de gerenciamento de categorias, permitindo a criação de novas categorias e consulta das categorias base.")
 public class CategoryController {
 
     private final CategoryMapper categoryMapper;
