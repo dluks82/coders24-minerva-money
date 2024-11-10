@@ -17,12 +17,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserService {
 
-    private CategoryService categoryService;
-    private UserMapper userMapper;
+    private final CategoryService categoryService;
+    private final UserMapper userMapper;
 
     public UserProfileDTO authenticatedUserProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();;
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
         return UserProfileDTO.builder()
                 .id(currentUser.getId())
@@ -36,8 +36,9 @@ public class UserService {
         return categoryService.getCustomCategoriesByUser(user);
     }
 
-    public void createUserCustomCategory(CategoryDTO dto) {
+    public CategoryDTO createUserCustomCategory(CategoryDTO dto) {
         User user = userMapper.toUser(authenticatedUserProfile());
         Category customCategory = new Category(dto.getName(), dto.getDescription(), user);
+        return categoryService.createCustomCategory(customCategory);
     }
 }

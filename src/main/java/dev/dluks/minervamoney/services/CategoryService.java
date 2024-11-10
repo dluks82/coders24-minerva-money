@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +22,17 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Transactional(readOnly = true)
-    public List<Category> getBaseCategories() {
-        return categoryRepository.findByOwnerIsNull();
+    public List<CategoryDTO> getBaseCategories() {
+        return categoryRepository.findByOwnerIsNull()
+                .stream()
+                .map(baseCat -> {
+                    CategoryDTO dto = categoryMapper.toDto(baseCat);
+                    dto.setDefault(true);
+                    return dto;
+                }).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Set<Category> getCustomCategoriesByUser(User user) {
         return categoryRepository.findByOwner(user);
     }
@@ -34,5 +42,10 @@ public class CategoryService {
         category.setActive(true);
         category.setCreatedAt(LocalDateTime.now());
         return categoryMapper.toDto(categoryRepository.save(category));
+    }
+
+    @Transactional
+    public CategoryDTO createCustomCategory(Category categoryDTO) {
+        return categoryMapper.toDto(categoryRepository.save(categoryDTO));
     }
 }
