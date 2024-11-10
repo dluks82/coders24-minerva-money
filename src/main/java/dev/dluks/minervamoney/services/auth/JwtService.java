@@ -1,4 +1,4 @@
-package dev.dluks.minervamoney.services;
+package dev.dluks.minervamoney.services.auth;
 
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import io.jsonwebtoken.Claims;

@@ -8,7 +8,6 @@ import dev.dluks.minervamoney.mappers.AccountMapper;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
     private final AccountRepository accountRepository;
-
-    @Autowired
     private final AccountMapper accountMapper;
-
-    @Autowired
     private final UserRepository userRepository;
 
     public Account createAccount(RegisterAccountRequestDTO accountRequestDTO) {
@@ -49,8 +43,14 @@ public class AccountService {
     public List<AccountDTO> getAllAccounts() {
         List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
-            .map(accountMapper::toAccountDTO)
-            .toList();
+                .map(accountMapper::toAccountDTO)
+                .toList();
+    }
+
+    public AccountDTO getAccountById(UUID accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+        return accountMapper.toAccountDTO(account);
     }
 
 }

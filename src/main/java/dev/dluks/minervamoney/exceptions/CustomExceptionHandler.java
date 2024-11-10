@@ -88,6 +88,18 @@ public class CustomExceptionHandler {
 
     }
 
+    @ExceptionHandler(UnauthorizedAccountAccessException.class)
+    public ResponseEntity<CustomErrorResponse> handleExpiredJwtException(
+            UnauthorizedAccountAccessException e,
+            HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
+
+        return ResponseEntity.status(status).body(error);
+
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorResponse> validation(
             MethodArgumentNotValidException e,
