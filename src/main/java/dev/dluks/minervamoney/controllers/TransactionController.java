@@ -3,12 +3,14 @@ package dev.dluks.minervamoney.controllers;
 import dev.dluks.minervamoney.dtos.transaction.TransactionDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionDeleteRequestDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
+import dev.dluks.minervamoney.dtos.transaction.TransactionSummaryDTO;
 import dev.dluks.minervamoney.exceptions.CustomExceptionHandler;
 import dev.dluks.minervamoney.services.TransactionService;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,14 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping("/{accountId}/transactions")
-    public ResponseEntity<List<TransactionDTO>> getAllTransactions(@PathVariable UUID accountId) {
-        return ResponseEntity.ok(transactionService.getAllTransactions(accountId));
+    public ResponseEntity<Page<TransactionDTO>> getAllTransactions(
+            @PathVariable UUID accountId,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(transactionService.getAllTransactions(accountId, year, month, page, size));
     }
 
 
@@ -65,6 +73,16 @@ public class TransactionController {
             @RequestBody TransactionDeleteRequestDTO requestDTO) {
         transactionService.softDeleteTransaction(transactionId, requestDTO.getReason(), accountId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{accountId}/transactions/summary")
+    public ResponseEntity<TransactionSummaryDTO> getTransactionSummary(
+            @PathVariable UUID accountId,
+            @RequestParam Integer year,
+            @RequestParam Integer month) {
+
+        TransactionSummaryDTO summary = transactionService.getTransactionSummary(accountId, year, month);
+        return ResponseEntity.ok(summary);
     }
 
 

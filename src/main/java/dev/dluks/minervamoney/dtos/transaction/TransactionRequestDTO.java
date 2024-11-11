@@ -24,6 +24,9 @@ public class TransactionRequestDTO {
     @NotNull
     private TransactionType type;
 
+    @NotNull
+    private Long category;
+
     @NotNull(message = "Description is required")
     private String description;
 
