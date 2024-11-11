@@ -7,13 +7,17 @@ import dev.dluks.minervamoney.mappers.CategoryMapper;
 import dev.dluks.minervamoney.services.CategoryService;
 import dev.dluks.minervamoney.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -62,6 +66,13 @@ public class UserController {
     public ResponseEntity<CategoryDTO> createUserCategory(@RequestBody CategoryDTO categoryDTO) {
         CategoryDTO dto = userService.createUserCustomCategory(categoryDTO);
         return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/categories/delete")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<CategoryDTO> deleteUserCategory(@RequestParam String categoryName) {
+        CategoryDTO deletedCategory = userService.deleteCustomCategory(categoryName);
+        return ResponseEntity.ok(deletedCategory);
     }
 
 }

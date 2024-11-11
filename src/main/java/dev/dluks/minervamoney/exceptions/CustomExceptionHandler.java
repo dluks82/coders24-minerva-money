@@ -33,6 +33,14 @@ public class CustomExceptionHandler {
 
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handleCategoryNotFoundException(
+            CategoryNotFoundException ex, HttpServletRequest request ) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomErrorResponse error = createErrorResponse(ex.getMessage(), request, status);
+        return ResponseEntity.status(status).body(error);
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<CustomErrorResponse> handleInvalidCredentialsException(
             InvalidCredentialsException e,

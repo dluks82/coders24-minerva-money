@@ -11,7 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +43,10 @@ public class UserService {
         User user = userMapper.toUser(authenticatedUserProfile());
         Category customCategory = new Category(dto.getName(), dto.getDescription(), user);
         return categoryService.createCustomCategory(customCategory);
+    }
+
+    public CategoryDTO deleteCustomCategory(String categoryName) {
+        UUID userId = userMapper.toUser(authenticatedUserProfile()).getId();
+        return categoryService.deleteUserCategory(userId, categoryName);
     }
 }
