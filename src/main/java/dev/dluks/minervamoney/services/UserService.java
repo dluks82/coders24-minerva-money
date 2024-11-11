@@ -1,11 +1,16 @@
 package dev.dluks.minervamoney.services;
 
 import dev.dluks.minervamoney.dtos.category.CategoryDTO;
+import dev.dluks.minervamoney.dtos.user.UpdateUserRoleDTO;
 import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
+import dev.dluks.minervamoney.entities.Role;
 import dev.dluks.minervamoney.entities.User;
+import dev.dluks.minervamoney.exceptions.UserNotFoundException;
 import dev.dluks.minervamoney.mappers.UserMapper;
+import dev.dluks.minervamoney.repositories.RoleRepository;
+import dev.dluks.minervamoney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import javax.management.relation.RoleNotFoundException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,6 +28,8 @@ import java.util.UUID;
 public class UserService {
 
     private final CategoryService categoryService;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     public UserProfileDTO authenticatedUserProfile() {
@@ -49,4 +58,22 @@ public class UserService {
         UUID userId = userMapper.toUser(authenticatedUserProfile()).getId();
         return categoryService.deleteUserCategory(userId, categoryName);
     }
+
+    public UUID updateUserRole(UUID userId, UpdateUserRoleDTO updateUserRoleDTO) throws RoleNotFoundException, UserNotFoundException {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Error: User not found"));
+
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(updateUserRoleDTO.getERole())
+                .orElseThrow(() -> new RoleNotFoundException("Error: Role USER not found"));
+        roles.add(userRole);
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return user.getId();
+
+    }
+
 }
