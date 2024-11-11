@@ -1,6 +1,5 @@
 package dev.dluks.minervamoney.repositories;
 
-import dev.dluks.minervamoney.dtos.transaction.TransactionSummaryDTO;
 import dev.dluks.minervamoney.entities.Transaction;
 import dev.dluks.minervamoney.enums.TransactionType;
 import org.springframework.data.domain.Page;
@@ -71,7 +70,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             @Param("month") int month
     );
 
-
-
-
+    List<Transaction> findTop5ByAccountIdOrderByDateDesc(UUID accountId);
 }
