@@ -4,15 +4,23 @@ import dev.dluks.minervamoney.dtos.category.CategoryDTO;
 import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.mappers.CategoryMapper;
+import dev.dluks.minervamoney.services.CategoryService;
 import dev.dluks.minervamoney.services.UserService;
-import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +33,7 @@ public class UserController {
 
     private final UserService userService;
     private final CategoryMapper categoryMapper;
+    private final CategoryService categoryService;
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
@@ -34,9 +43,36 @@ public class UserController {
 
     @GetMapping("/categories/custom")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Set<CategoryDTO>> getUserCategories() {
+    public ResponseEntity<Set<CategoryDTO>> getUserCustomCategories() {
         Set<Category> userCategories = userService.getUserCategories();
         return ResponseEntity.ok(userCategories.stream().map(categoryMapper::toDto).collect(Collectors.toSet()));
+    }
+
+    @GetMapping("/categories/all")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Set<CategoryDTO>> getAllUserCategories() {
+        Set<Category> userCategories = userService.getUserCategories();
+        List<CategoryDTO> baseCategories = categoryService.getBaseCategories();
+
+        Set<CategoryDTO> allCategories = userCategories.stream()
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toSet());
+                allCategories.addAll(baseCategories);
+        return ResponseEntity.ok(allCategories);
+    }
+
+    @PostMapping("/categories/create-custom")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<CategoryDTO> createUserCategory(@RequestBody CategoryDTO categoryDTO) {
+        CategoryDTO dto = userService.createUserCustomCategory(categoryDTO);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/categories/delete")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<CategoryDTO> deleteUserCategory(@RequestParam String categoryName) {
+        CategoryDTO deletedCategory = userService.deleteCustomCategory(categoryName);
+        return ResponseEntity.ok(deletedCategory);
     }
 
 }

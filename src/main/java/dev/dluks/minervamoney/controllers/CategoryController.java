@@ -37,7 +37,7 @@ public class CategoryController {
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<CategoryDTO>> getBaseCategories() {
-        List<Category> categories = categoryService.getBaseCategories();
-        return ResponseEntity.ok(categories.stream().map(categoryMapper::toDto).toList());
+        List<CategoryDTO> categories = categoryService.getBaseCategories();
+        return ResponseEntity.ok(categories);
     }
 }
