@@ -1,7 +1,9 @@
 package dev.dluks.minervamoney.dtos.user;
 
+import dev.dluks.minervamoney.dtos.account.AccountDTO;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -16,5 +18,7 @@ public class UserProfileDTO {
     private String fullName;
 
     private String email;
+
+    private List<AccountDTO> accounts;
 
 }
