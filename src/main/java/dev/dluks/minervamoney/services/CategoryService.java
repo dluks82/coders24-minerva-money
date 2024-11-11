@@ -58,4 +58,9 @@ public class CategoryService {
         categoryRepository.delete(deleted);
         return categoryMapper.toDto(deleted);
     }
+
+    @Transactional(readOnly = true)
+    public boolean verifyExistingCategory(CategoryDTO categoryDTO, UUID userId) {
+        return categoryRepository.findByNameAndOwnerOrBase(categoryDTO.getName(), userId).isPresent();
+    }
 }

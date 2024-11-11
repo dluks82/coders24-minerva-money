@@ -41,6 +41,14 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<CustomErrorResponse> handleCategoryAlreadyExistsException(
+            CategoryAlreadyExistsException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
+        return ResponseEntity.status(status).body(error);
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<CustomErrorResponse> handleInvalidCredentialsException(
             InvalidCredentialsException e,

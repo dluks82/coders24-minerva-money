@@ -17,6 +17,15 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Set<Category> findByOwner(User user);
 
-    @Query(value = "SELECT * FROM categories WHERE owner_id = :ownerId AND LOWER(name) = LOWER(:name)", nativeQuery = true)
+    @Query(value =
+            "SELECT * " +
+            "FROM categories " +
+            "WHERE owner_id = :ownerId AND LOWER(name) = LOWER(:name)", nativeQuery = true)
     Optional<Category> findByOwnerIdAndName(@Param("ownerId") UUID ownerId, @Param("name") String name);
+
+    @Query(value = "" +
+            "SELECT * " +
+            "FROM categories " +
+            "WHERE LOWER(name) = LOWER(:name) AND (owner_id = :ownerId OR owner_id IS NULL)", nativeQuery = true)
+    Optional<Category> findByNameAndOwnerOrBase(@Param("name") String name, @Param("ownerId") UUID ownerId);
 }
