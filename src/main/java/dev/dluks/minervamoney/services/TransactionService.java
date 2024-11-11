@@ -6,15 +6,17 @@ import dev.dluks.minervamoney.entities.Account;
 import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.Transaction;
-import dev.dluks.minervamoney.exceptions.AccountNotFoundException;
-import dev.dluks.minervamoney.exceptions.TransactionNotFoundException;
-import dev.dluks.minervamoney.exceptions.UnauthorizedAccountAccessException;
+import dev.dluks.minervamoney.exceptions.*;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.CategoryRepository;
 import dev.dluks.minervamoney.repositories.TransactionRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,30 +41,42 @@ public class TransactionService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    @Transactional(readOnly = true)
-    public List<TransactionDTO> getAllTransactions(UUID accountId) {
-        accountExists(accountId);
-        accountBelongsToUser(accountId);
-        return transactionRepository.findByAccountIdAndDeletedFalse(accountId)
-                .stream()
-                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
-                .collect(Collectors.toList());
-    }
 
     @Transactional(readOnly = true)
-    public List<TransactionDTO> getMonthTransactions(UUID accountId, Integer month) {
+    public Page<TransactionDTO> getAllTransactions(
+            UUID accountId,
+            Integer year,
+            Integer month,
+            int page,
+            int size) {
+
         accountExists(accountId);
         accountBelongsToUser(accountId);
-        return transactionRepository.findByAccountIdAndDeletedFalse(accountId)
-                .stream()
-                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
-                .filter()
-                .collect(Collectors.toList());
-    }
 
-    // busca por mes
-    //busca por mes e paginado.
-    //
+        if ((year != null && month == null) || (year == null && month != null)) {
+            throw new TransactionDateException("O ano e o mês devem ser fornecidos juntos");
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
+
+        try {
+            if (year != null && month != null) {
+                YearMonth yearMonth = YearMonth.of(year, month);
+                LocalDate startDate = yearMonth.atDay(1);
+                LocalDate endDate = yearMonth.atEndOfMonth();
+
+                return transactionRepository
+                        .findByAccountIdAndPeriod(accountId, startDate, endDate, pageable)
+                        .map(transaction -> modelMapper.map(transaction, TransactionDTO.class));
+            } else {
+                return transactionRepository
+                        .findByAccountIdAndDeletedFalse(accountId, pageable)
+                        .map(transaction -> modelMapper.map(transaction, TransactionDTO.class));
+            }
+        } catch (DateTimeException e) {
+            throw new TransactionDateException("Parâmetros de data inválidos");
+        }
+    }
 
 
     @Transactional(readOnly = true)
@@ -165,7 +182,7 @@ public class TransactionService {
                 && category.get().getOwner() != null
                 && !currentUser.getId().toString().equals(category.get().getOwner().getId().toString())){
 
-            throw new UnauthorizedAccountAccessException("Categoria inexistente");
+            throw new CategoryNotFoundException("Categoria inexistente");
         }
         return category.orElse(null);
     }
@@ -178,7 +195,7 @@ public class TransactionService {
 
     private void categoryExists(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new AccountNotFoundException("Categoria não exite"));
+                .orElseThrow(() -> new CategoryNotFoundException("Categoria não exite"));
     }
 
 
