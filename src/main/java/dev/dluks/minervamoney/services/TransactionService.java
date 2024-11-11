@@ -2,10 +2,12 @@ package dev.dluks.minervamoney.services;
 
 import dev.dluks.minervamoney.dtos.transaction.TransactionDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
+import dev.dluks.minervamoney.dtos.transaction.TransactionSummaryDTO;
 import dev.dluks.minervamoney.entities.Account;
 import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.Transaction;
+import dev.dluks.minervamoney.enums.TransactionType;
 import dev.dluks.minervamoney.exceptions.*;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.CategoryRepository;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -159,6 +162,42 @@ public class TransactionService {
         transaction.softDelete(reason);
         transactionRepository.save(transaction);
     }
+
+    @Transactional(readOnly = true)
+    public TransactionSummaryDTO getTransactionSummary(UUID accountId, Integer year, Integer month) {
+        // Validações
+        accountExists(accountId);
+        accountBelongsToUser(accountId);
+
+        if (year == null || month == null) {
+            throw new TransactionDateException("Year and month are required");
+        }
+
+        if (month < 1 || month > 12) {
+            throw new TransactionDateException("Month must be between 1 and 12");
+        }
+
+        BigDecimal totalIncome = transactionRepository
+                .sumByType(accountId, TransactionType.INCOME, year, month);
+
+        BigDecimal totalExpense = transactionRepository
+                .sumByType(accountId, TransactionType.EXPENSE, year, month);
+
+        Long incomeCount = transactionRepository
+                .countByType(accountId, TransactionType.INCOME, year, month);
+
+        Long expenseCount = transactionRepository
+                .countByType(accountId, TransactionType.EXPENSE, year, month);
+
+        return new TransactionSummaryDTO(
+                totalIncome,
+                totalExpense,
+                incomeCount,
+                expenseCount
+        );
+    }
+
+
 
     private Account accountBelongsToUser(UUID accountId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
