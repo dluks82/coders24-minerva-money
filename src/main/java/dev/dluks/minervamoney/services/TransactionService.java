@@ -116,11 +116,18 @@ public class TransactionService {
         transaction.setCategory(category);
         transaction.setAccount(account);
 
+        // Update the account balance
+        if (transaction.getType() == TransactionType.INCOME) {
+            account.setCurrentBalance(account.getCurrentBalance().add(transaction.getAmount()));
+        } else {
+            account.setCurrentBalance(account.getCurrentBalance().subtract(transaction.getAmount()));
+        }
+
         transaction = transactionRepository.save(transaction);
             return new TransactionDTO(transaction.getId(),
                 transaction.getAmount(),
                 transaction.getType(),
-                transaction.getCategory().getId(),
+                transaction.getCategory().getName(),
                 transaction.getDescription(),
                 transaction.getDate(),
                 transaction.isDeleted() );
