@@ -3,6 +3,7 @@ package dev.dluks.minervamoney.controllers;
 import dev.dluks.minervamoney.dtos.transaction.TransactionDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionDeleteRequestDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
+import dev.dluks.minervamoney.dtos.transaction.TransactionSummaryDTO;
 import dev.dluks.minervamoney.exceptions.CustomExceptionHandler;
 import dev.dluks.minervamoney.services.TransactionService;
 import jakarta.validation.Valid;
@@ -72,6 +73,16 @@ public class TransactionController {
             @RequestBody TransactionDeleteRequestDTO requestDTO) {
         transactionService.softDeleteTransaction(transactionId, requestDTO.getReason(), accountId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{accountId}/transactions/summary")
+    public ResponseEntity<TransactionSummaryDTO> getTransactionSummary(
+            @PathVariable UUID accountId,
+            @RequestParam Integer year,
+            @RequestParam Integer month) {
+
+        TransactionSummaryDTO summary = transactionService.getTransactionSummary(accountId, year, month);
+        return ResponseEntity.ok(summary);
     }
 
 
