@@ -1,6 +1,7 @@
 package dev.dluks.minervamoney.controllers;
 
 import dev.dluks.minervamoney.dtos.account.AccountDTO;
+import dev.dluks.minervamoney.dtos.dashboard.DashboardDTO;
 import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.services.AccountBalanceService;
@@ -61,6 +62,15 @@ public class AccountController {
         accountDTO.setCurrentBalance(currentBalance);
 
         return ResponseEntity.ok(accountDTO);
+    }
+
+    @GetMapping("/{accountId}/dashboard")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<DashboardDTO> getAccountDashboard(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @PathVariable UUID accountId) {
+
+        return ResponseEntity.ok(accountService.getAccountDashboard(currentUser, accountId));
     }
 
 }

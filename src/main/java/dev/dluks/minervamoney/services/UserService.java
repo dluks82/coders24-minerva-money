@@ -16,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import javax.management.relation.RoleNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +26,7 @@ import java.util.UUID;
 public class UserService {
 
     private final CategoryService categoryService;
+    private final AccountService accountService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -36,10 +35,13 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
+        var accounts = accountService.getAccountsByUserId(currentUser.getId());
+
         return UserProfileDTO.builder()
                 .id(currentUser.getId())
                 .fullName(currentUser.getFullName())
                 .email(currentUser.getUsername())
+                .accounts(accounts)
                 .build();
     }
 
