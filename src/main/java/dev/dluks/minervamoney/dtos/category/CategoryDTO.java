@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO {
 
+    private Long id;
     private String name;
     private String description;
     private boolean isDefault;

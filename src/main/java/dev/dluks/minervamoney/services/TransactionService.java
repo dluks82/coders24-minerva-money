@@ -70,11 +70,27 @@ public class TransactionService {
 
                 return transactionRepository
                         .findByAccountIdAndPeriod(accountId, startDate, endDate, pageable)
-                        .map(transaction -> modelMapper.map(transaction, TransactionDTO.class));
+                        .map(transaction -> TransactionDTO.builder()
+                                .id(transaction.getId())
+                                .amount(transaction.getAmount())
+                                .type(transaction.getType())
+                                .category(transaction.getCategory().getName())
+                                .description(transaction.getDescription())
+                                .date(transaction.getDate())
+                                .deleted(transaction.isDeleted())
+                                .build());
             } else {
                 return transactionRepository
                         .findByAccountIdAndDeletedFalse(accountId, pageable)
-                        .map(transaction -> modelMapper.map(transaction, TransactionDTO.class));
+                        .map(transaction -> TransactionDTO.builder()
+                                .id(transaction.getId())
+                                .amount(transaction.getAmount())
+                                .type(transaction.getType())
+                                .category(transaction.getCategory().getName())
+                                .description(transaction.getDescription())
+                                .date(transaction.getDate())
+                                .deleted(transaction.isDeleted())
+                                .build());
             }
         } catch (DateTimeException e) {
             throw new TransactionDateException("Parâmetros de data inválidos");
