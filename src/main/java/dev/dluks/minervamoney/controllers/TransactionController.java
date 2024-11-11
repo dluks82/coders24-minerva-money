@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,14 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping("/{accountId}/transactions")
-    public ResponseEntity<List<TransactionDTO>> getAllTransactions(@PathVariable UUID accountId) {
-        return ResponseEntity.ok(transactionService.getAllTransactions(accountId));
+    public ResponseEntity<Page<TransactionDTO>> getAllTransactions(
+            @PathVariable UUID accountId,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(transactionService.getAllTransactions(accountId, year, month, page, size));
     }
 
 
