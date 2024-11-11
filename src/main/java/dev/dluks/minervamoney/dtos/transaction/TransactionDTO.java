@@ -18,6 +18,7 @@ public class TransactionDTO {
     private UUID id;
     private BigDecimal amount;
     private TransactionType type;
+    private Long category;
     private String description;
     private LocalDate date;
     private Boolean deleted;
