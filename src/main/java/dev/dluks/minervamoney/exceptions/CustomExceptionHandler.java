@@ -35,7 +35,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<CustomErrorResponse> handleCategoryNotFoundException(
-            CategoryNotFoundException ex, HttpServletRequest request ) {
+            CategoryNotFoundException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         CustomErrorResponse error = createErrorResponse(ex.getMessage(), request, status);
         return ResponseEntity.status(status).body(error);
@@ -68,7 +68,7 @@ public class CustomExceptionHandler {
             MalformedJwtException e,
             HttpServletRequest request) {
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
         return ResponseEntity.status(status).body(error);
 
@@ -79,7 +79,7 @@ public class CustomExceptionHandler {
             SignatureException e,
             HttpServletRequest request) {
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
         return ResponseEntity.status(status).body(error);
 
@@ -90,14 +90,14 @@ public class CustomExceptionHandler {
             ExpiredJwtException e,
             HttpServletRequest request) {
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Expired token", request, status);
         return ResponseEntity.status(status).body(error);
 
     }
 
     @ExceptionHandler(UnauthorizedAccountAccessException.class)
-    public ResponseEntity<CustomErrorResponse> handleExpiredJwtException(
+    public ResponseEntity<CustomErrorResponse> handleUnauthorizedAccountAccessException(
             UnauthorizedAccountAccessException e,
             HttpServletRequest request) {
 
