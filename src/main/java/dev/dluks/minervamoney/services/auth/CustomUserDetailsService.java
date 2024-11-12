@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         try {
             userUUID = UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
-            throw new UsernameNotFoundException("Invalid UUID format: " + userId);
+            throw new UsernameNotFoundException("User not found with id: " + userId);
         }
 
         User user = userRepository.findById(userUUID)

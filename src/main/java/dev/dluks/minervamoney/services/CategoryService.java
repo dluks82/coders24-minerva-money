@@ -31,7 +31,7 @@ public class CategoryService {
                     CategoryDTO dto = categoryMapper.toDto(baseCat);
                     dto.setDefault(true);
                     return dto;
-                }).collect(Collectors.toList());
+                }).toList();
     }
 
     @Transactional(readOnly = true)

@@ -6,7 +6,6 @@ import dev.dluks.minervamoney.dtos.user.UserProfileDTO;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.services.AccountBalanceService;
 import dev.dluks.minervamoney.services.AccountService;
-import dev.dluks.minervamoney.services.MonthlyBalanceConsolidationService;
 import dev.dluks.minervamoney.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +26,8 @@ public class AccountController {
 
     private final AccountService accountService;
     private final AccountBalanceService accountBalanceService;
-    private final MonthlyBalanceConsolidationService monthlyBalanceConsolidationService;
     private final UserService userService;
-
-    // just for test
-    @GetMapping("/consolidate")
-    @PreAuthorize("isAuthenticated()") // should be ADMIN
-    public void consolidateMonthlyBalance() {
-        monthlyBalanceConsolidationService.consolidateMonthlyBalance();
-    }
-
+    
     @GetMapping()
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<AccountDTO>> getAccountsById() {

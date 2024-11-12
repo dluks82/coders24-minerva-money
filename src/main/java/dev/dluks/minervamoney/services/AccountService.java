@@ -10,6 +10,7 @@ import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.Transaction;
 import dev.dluks.minervamoney.entities.User;
 import dev.dluks.minervamoney.enums.TransactionType;
+import dev.dluks.minervamoney.exceptions.UnauthorizedAccountAccessException;
 import dev.dluks.minervamoney.mappers.AccountMapper;
 import dev.dluks.minervamoney.repositories.AccountRepository;
 import dev.dluks.minervamoney.repositories.TransactionRepository;
@@ -68,7 +69,10 @@ public class AccountService {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("Account not found"));
 
-        // year and month from current date
+        if (!account.getUser().getId().equals(currentUser.getId())) {
+            throw new UnauthorizedAccountAccessException("Unauthorized access to account");
+        }
+
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
 
@@ -78,13 +82,6 @@ public class AccountService {
         BigDecimal totalExpense = transactionRepository
                 .sumByType(accountId, TransactionType.EXPENSE, year, month);
 
-        Long incomeCount = transactionRepository
-                .countByType(accountId, TransactionType.INCOME, year, month);
-
-        Long expenseCount = transactionRepository
-                .countByType(accountId, TransactionType.EXPENSE, year, month);
-
-        // Obter as 5 últimas transações
         List<Transaction> transactions = transactionRepository.findTop5ByAccountIdOrderByDateDesc(accountId);
 
         List<TransactionDTO> transactionDTOS = transactions.stream()
@@ -102,7 +99,7 @@ public class AccountService {
                 .summary(SummaryDTO.builder()
                         .income(totalIncome)
                         .expenses(totalExpense)
-                        .balance(totalIncome.subtract(totalExpense))
+                        .balance(account.getCurrentBalance())
                         .build())
                 .recentTransactions(transactionDTOS)
                 .build();

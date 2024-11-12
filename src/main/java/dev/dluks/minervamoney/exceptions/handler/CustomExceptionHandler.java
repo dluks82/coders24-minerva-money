@@ -1,7 +1,8 @@
-package dev.dluks.minervamoney.exceptions;
+package dev.dluks.minervamoney.exceptions.handler;
 
 import dev.dluks.minervamoney.dtos.response.CustomErrorResponse;
 import dev.dluks.minervamoney.dtos.response.ValidationErrorResponse;
+import dev.dluks.minervamoney.exceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;

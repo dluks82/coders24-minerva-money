@@ -13,6 +13,4 @@ public class TransactionDeleteRequestDTO {
     @NotEmpty(message = "Reason is required")
     private String reason;
 
-
-
 }

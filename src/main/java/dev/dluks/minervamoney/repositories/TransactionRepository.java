@@ -42,8 +42,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             Pageable pageable
     );
 
-
-
     @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t " +
             "WHERE t.account.id = :accountId " +
             "AND t.type = :type " +
