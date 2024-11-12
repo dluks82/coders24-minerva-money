@@ -7,6 +7,7 @@ import dev.dluks.minervamoney.entities.Category;
 import dev.dluks.minervamoney.entities.CustomUserDetails;
 import dev.dluks.minervamoney.entities.Role;
 import dev.dluks.minervamoney.entities.User;
+import dev.dluks.minervamoney.exceptions.CategoryAlreadyExistsException;
 import dev.dluks.minervamoney.exceptions.UserNotFoundException;
 import dev.dluks.minervamoney.mappers.UserMapper;
 import dev.dluks.minervamoney.repositories.RoleRepository;
@@ -52,8 +53,12 @@ public class UserService {
 
     public CategoryDTO createUserCustomCategory(CategoryDTO dto) {
         User user = userMapper.toUser(authenticatedUserProfile());
-        Category customCategory = new Category(dto.getName(), dto.getDescription(), user);
-        return categoryService.createCustomCategory(customCategory);
+        if(!categoryService.verifyExistingCategory(dto, user.getId())) {
+            Category customCategory = new Category(dto.getName(), dto.getDescription(), user);
+            return categoryService.createCustomCategory(customCategory);
+        } else {
+            throw new CategoryAlreadyExistsException("Categoria já existente para o usuário ou como categoria base.");
+        }
     }
 
     public CategoryDTO deleteCustomCategory(String categoryName) {
