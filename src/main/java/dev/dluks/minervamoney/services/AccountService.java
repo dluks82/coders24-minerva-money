@@ -92,6 +92,7 @@ public class AccountService {
                         .amount(transaction.getAmount())
                         .type(transaction.getType())
                         .category(transaction.getCategory().getName())
+                        .deleted(transaction.isDeleted())
                         .build())
                 .toList();
 

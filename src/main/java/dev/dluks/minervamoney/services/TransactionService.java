@@ -183,6 +183,14 @@ public class TransactionService {
                 .orElseThrow(() -> new TransactionNotFoundException("Transação não encontrada!"));
 
         transaction.softDelete(reason);
+
+        // update the account balance
+        if (transaction.getType() == TransactionType.INCOME) {
+            transaction.getAccount().setCurrentBalance(transaction.getAccount().getCurrentBalance().subtract(transaction.getAmount()));
+        } else {
+            transaction.getAccount().setCurrentBalance(transaction.getAccount().getCurrentBalance().add(transaction.getAmount()));
+        }
+
         transactionRepository.save(transaction);
     }
 
