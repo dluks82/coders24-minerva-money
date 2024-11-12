@@ -1,65 +1,58 @@
 @startuml MinervaMoney
 
-    User "1" --> "1" Account : owns
+    User "1" --> "*" Account : owns
     Account "1" --> "*" Transaction : has
     Transaction "*" --> "1" Category : belongs to
-    Account "1" --> "*" MonthlyBalance : has
-    User --> "*" Category : creates
+    User "1" --> "*" Category : creates
+    User "*" --> "*" Role : has
 
     class User {
-        -UUID id
-        -String fullName
-        -String email
-        -String password
-        -LocalDateTime createdAt
-        -Boolean active
-        +createCategory()
-        +getTransactions()
-        +getBalance()
+        UUID id
+        String fullName
+        String email
+        String password
+        Set~Role~ roles
+        Set~Category~ customCategories
+        Instant createdAt
+        Instant updatedAt
     }
 
     class Account {
-        -UUID id
-        -String name
-        -BigDecimal currentBalance
-        -LocalDateTime createdAt
-        +addTransaction()
-        +calculateBalance()
-        +closeMonth()
+        UUID id
+        String name
+        BigDecimal currentBalance
+        Instant createdAt
+        User user
     }
 
     class Transaction {
-        -UUID id
-        -BigDecimal amount
-        -TransactionType type
-        -String description
-        -LocalDateTime date
-        -LocalDateTime createdAt
-        -LocalDateTime deletedAt
-        -String deletionReason
-        -Boolean deleted
-        +softDelete(reason)
-        +updateTransaction()
+        UUID id
+        BigDecimal amount
+        TransactionType type
+        String description
+        LocalDate date
+        Instant createdAt
+        Instant deletedAt
+        String deletionReason
+        boolean deleted
+        Account account
+        Category category
+        +softDelete(String reason)
     }
 
     class Category {
-        -Long id
-        -String name
-        -String description
-        -Boolean isDefault
-        -Boolean active
-        -LocalDateTime createdAt
-        +updateCategory()
-        +deactivateCategory()
+        Long id
+        String name
+        String description
+        Boolean active
+        LocalDateTime createdAt
+        User owner
+        +isBaseCategory()
     }
 
-    class MonthlyBalance {
-        -Long id
-        -Integer year
-        -Integer month
-        -BigDecimal finalBalance
-        -LocalDateTime closedAt
-        +reopenMonth()
+    class Role {
+        Long id
+        ERole name
     }
 
     class TransactionType {
@@ -68,4 +61,10 @@
         EXPENSE
     }
 
-@enduml
+    class ERole {
+        <<enumeration>>
+        ROLE_USER
+        ROLE_ADMIN
+    }
+
+    @enduml
