@@ -20,6 +20,7 @@ public class HealthCheckController {
         status.put("status", "UP");
         status.put("timestamp", LocalDateTime.now());
         status.put("service", "Minerva Money API");
+        status.put("documentation", "/docs");
 
         return ResponseEntity.ok(status);
     }

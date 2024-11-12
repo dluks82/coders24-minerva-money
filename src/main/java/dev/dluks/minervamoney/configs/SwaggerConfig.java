@@ -3,22 +3,33 @@ package dev.dluks.minervamoney.configs;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
 
-    static ExternalDocumentation gitHubLink;
-    static Info infos;
+    @Value("${app.url}")
+    private String serverUrl;
 
-    public static void setGitHubLink() {
+    @Value("${app.env}")
+    private String environment;
+
+    private static ExternalDocumentation gitHubLink;
+    private static Info infos;
+
+    private static void setGitHubLink() {
         gitHubLink = new ExternalDocumentation()
                 .description("GitHub Link")
                 .url("https://github.com/dluks82/coders24-minerva-money");
     }
 
-    public static void setInfos() {
+    private static void setInfos() {
         infos = new Info()
                 .title("Minerva Money")
                 .version("1.0")
@@ -37,8 +48,15 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         setGitHubLink();
         setInfos();
+
+        List<Server> servers = new ArrayList<>();
+        servers.add(new Server()
+                .url(serverUrl)
+                .description(environment + " Server"));
+
         return new OpenAPI()
                 .info(infos)
-                .externalDocs(gitHubLink);
+                .externalDocs(gitHubLink)
+                .servers(servers);
     }
 }
