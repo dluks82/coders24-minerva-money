@@ -13,7 +13,6 @@ import dev.dluks.minervamoney.repositories.RoleRepository;
 import dev.dluks.minervamoney.repositories.UserRepository;
 import dev.dluks.minervamoney.services.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,6 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
 
     private final AccountService accountService;
 

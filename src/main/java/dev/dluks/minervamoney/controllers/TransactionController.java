@@ -4,11 +4,9 @@ import dev.dluks.minervamoney.dtos.transaction.TransactionDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionDeleteRequestDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionRequestDTO;
 import dev.dluks.minervamoney.dtos.transaction.TransactionSummaryDTO;
-import dev.dluks.minervamoney.exceptions.CustomExceptionHandler;
 import dev.dluks.minervamoney.services.TransactionService;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/accounts")
@@ -84,6 +81,5 @@ public class TransactionController {
         TransactionSummaryDTO summary = transactionService.getTransactionSummary(accountId, year, month);
         return ResponseEntity.ok(summary);
     }
-
 
 }

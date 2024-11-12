@@ -14,11 +14,8 @@ import java.util.UUID;
 public class UserProfileDTO {
 
     private UUID id;
-
     private String fullName;
-
     private String email;
-
     private List<AccountDTO> accounts;
 
 }

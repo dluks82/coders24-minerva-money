@@ -59,8 +59,6 @@ public class Transaction {
     @JoinColumn(name="category_id", nullable = false)
     private Category category;
 
-
-
     public void softDelete(String reason){
         this.deleted = true;
         this.deletionReason = reason;

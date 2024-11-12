@@ -220,8 +220,6 @@ public class TransactionService {
         );
     }
 
-
-
     private Account accountBelongsToUser(UUID accountId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();

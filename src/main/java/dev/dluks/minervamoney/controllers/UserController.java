@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
