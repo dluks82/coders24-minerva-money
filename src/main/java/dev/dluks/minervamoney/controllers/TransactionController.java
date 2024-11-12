@@ -62,7 +62,6 @@ public class TransactionController {
         );
     }
 
-
     @DeleteMapping("/{accountId}/transactions/{transactionId}")
     public ResponseEntity<Void> deleteTransaction(
             @PathVariable UUID transactionId,
