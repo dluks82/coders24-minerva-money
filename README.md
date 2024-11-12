@@ -131,6 +131,12 @@ docker compose logs postgres
 
 ## 🏗️ Arquitetura
 
+### Diagrama de Classes
+
+![Diagrama de Classes](diagrams/MinervaMoney.png)
+
+O diagrama de classes em formato PlantUML está disponível em `diagrams/class-diagram.puml`.
+
 ### Modelo de Domínio
 
 - **User**: Usuário do sistema
@@ -152,6 +158,8 @@ docker compose logs postgres
 - **Category**: Categoria de transação
     - Pode ser padrão do sistema ou personalizada
     - Se personalizada, pertence a um usuário específico
+
+[resto do documento permanece igual...]
 
 ### Categorias Padrão
 
