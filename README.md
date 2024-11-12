@@ -222,8 +222,6 @@ O diagrama de classes em formato PlantUML está disponível em `diagrams/class-d
 - `GET /users/me` - Obter dados do usuário autenticado
 - `PATCH /users/{user_id}/role` - Atualizar role do usuário
 
-[... conteúdo anterior permanece igual até a seção de APIs ...]
-
 ## 🧑‍💻 Equipe
 
 | [<img src="https://github.com/dluks82.png" width="100" alt="Perfil do GitHub Diogo" />](https://github.com/dluks82) | [<img src="https://github.com/Isaquemz.png" width="100" alt="Perfil do GitHub Isaque" />](https://github.com/Isaquemz) | [<img src="https://github.com/RAODomingos.png" width="100" alt="Perfil do GitHub Rômulo" />](https://github.com/RAODomingos) | [<img src="https://github.com/squoliver83.png" width="100" alt="Perfil do GitHub Samuel" />](https://github.com/squoliver83) |
