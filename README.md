@@ -14,11 +14,6 @@ recursos como múltiplas contas, categorias personalizáveis e relatórios finan
 Esta é a API REST do Minerva Money. Para a interface do usuário, confira
 nosso [repositório front-end](https://github.com/dluks82/coders24-minerva-money-front) (opcional).
 
-## 💎 Front-end
-
-Esta é a API REST do Minerva Money. Para a interface do usuário, confira
-nosso [repositório front-end](https://github.com/dluks82/coders24-minerva-money-front) (opcional).
-
 ### 🌐 Live Demo
 
 - **API**: [https://apiminervamoney.11051982.xyz](https://apiminervamoney.11051982.xyz)
