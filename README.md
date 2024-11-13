@@ -1,5 +1,24 @@
 # Minerva Money
 
+<div align="center">
+  <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.3.5-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-16-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/JWT-Authorization-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT"/>
+  <img src="https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+  <br/>
+  <img src="https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven"/>
+  <img src="https://img.shields.io/badge/Swagger-API%20Docs-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger"/>
+  <img src="https://img.shields.io/badge/Flyway-Migration-CC0200?style=for-the-badge&logo=flyway&logoColor=white" alt="Flyway"/>
+  <br/>
+  <a href="https://apiminervamoney.11051982.xyz/swagger-ui.html">
+    <img src="https://img.shields.io/badge/API-Online-4dc71f?style=for-the-badge&logo=swagger&logoColor=white" alt="API Status"/>
+  </a>
+  <a href="https://minervamoney.11051982.xyz">
+    <img src="https://img.shields.io/badge/Demo-Online-4dc71f?style=for-the-badge&logo=github&logoColor=white" alt="Demo Status"/>
+  </a>
+</div>
+
 Sistema de gerenciamento financeiro pessoal desenvolvido durante o módulo Programação Web II no programa Santander
 Coders 2024.1.
 
