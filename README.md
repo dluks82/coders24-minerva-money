@@ -9,6 +9,17 @@ O Minerva Money é uma aplicação de gerenciamento financeiro pessoal que permi
 através do registro de transações, categorização de despesas e receitas, e acompanhamento de saldo. O sistema oferece
 recursos como múltiplas contas, categorias personalizáveis e relatórios financeiros.
 
+## 💎 Front-end
+
+Esta é a API REST do Minerva Money. Para a interface do usuário, confira
+nosso [repositório front-end](https://github.com/dluks82/coders24-minerva-money-front) (opcional).
+
+<div align="center">
+  <img src="images/dashboard-mobile.jpg" width="400" alt="Tela de Dashboard" style="margin-right: 20px"/>
+  <img src="images/transacoes-mobile.jpg" width="400" alt="Tela de Transações"/>
+</div>
+
+
 ## 💻 Requisitos
 
 - Java 17 ou superior
@@ -152,8 +163,6 @@ O diagrama de classes em formato PlantUML está disponível em `diagrams/class-d
     - Pode ser padrão do sistema ou personalizada
     - Se personalizada, pertence a um usuário específico
 
-[resto do documento permanece igual...]
-
 ### Categorias Padrão
 
 - **Receitas**:
@@ -187,6 +196,8 @@ O diagrama de classes em formato PlantUML está disponível em `diagrams/class-d
     - Suportam exclusão lógica (soft delete)
 
 ## 🔄 APIs
+
+![Diagrama de Classes](images/swagger.png)
 
 ### Autenticação
 
