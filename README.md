@@ -14,11 +14,20 @@ recursos como múltiplas contas, categorias personalizáveis e relatórios finan
 Esta é a API REST do Minerva Money. Para a interface do usuário, confira
 nosso [repositório front-end](https://github.com/dluks82/coders24-minerva-money-front) (opcional).
 
-<div align="center">
-  <img src="images/dashboard-mobile.jpg" width="400" alt="Tela de Dashboard" style="margin-right: 20px"/>
-  <img src="images/transacoes-mobile.jpg" width="400" alt="Tela de Transações"/>
-</div>
+## 💎 Front-end
 
+Esta é a API REST do Minerva Money. Para a interface do usuário, confira
+nosso [repositório front-end](https://github.com/dluks82/coders24-minerva-money-front) (opcional).
+
+### 🌐 Live Demo
+
+- **API**: [https://apiminervamoney.11051982.xyz](https://apiminervamoney.11051982.xyz)
+- **Front-end**: [https://minervamoney.11051982.xyz](https://minervamoney.11051982.xyz)
+
+<div align="center">
+  <img src="images/dashboard-mobile.jpg" width="200" alt="Tela de Dashboard" style="margin-right: 20px"/>
+  <img src="images/transacoes-mobile.jpg" width="200" alt="Tela de Transações"/>
+</div>
 
 ## 💻 Requisitos
 
