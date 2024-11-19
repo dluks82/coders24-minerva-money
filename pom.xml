@@ -30,6 +30,8 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sonar.organization>dluks82</sonar.organization>
+        <sonar.host.url>https://sonar.dluks.dev</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>

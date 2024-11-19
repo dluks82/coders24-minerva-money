@@ -22,8 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw sonar:sonar
+        run: ./mvnw verify sonar:sonar -Dsonar.projectKey=dluks82_coders24-minerva-money_4ec5dd0f-2dbe-4d06-88d0-68357c9037af -Dsonar.organization=dluks82
