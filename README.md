@@ -1,6 +1,7 @@
-# Minerva Money
+# Minerva Money &nbsp; [![Coverage](https://sonar.dluks.dev/api/project_badges/measure?project=dluks82_coders24-minerva-money_4ec5dd0f-2dbe-4d06-88d0-68357c9037af&metric=coverage&token=sqb_882d822ac2fc15ddaa62659130d5afdb39b4817a)](https://sonar.dluks.dev/dashboard?id=dluks82_coders24-minerva-money_4ec5dd0f-2dbe-4d06-88d0-68357c9037af) [![Quality Gate Status](https://sonar.dluks.dev/api/project_badges/measure?project=dluks82_coders24-minerva-money_4ec5dd0f-2dbe-4d06-88d0-68357c9037af&metric=alert_status&token=sqb_882d822ac2fc15ddaa62659130d5afdb39b4817a)](https://sonar.dluks.dev/dashboard?id=dluks82_coders24-minerva-money_4ec5dd0f-2dbe-4d06-88d0-68357c9037af)
 
 <div align="center">
+ 
   <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17"/>
   <img src="https://img.shields.io/badge/Spring%20Boot-3.3.5-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot"/>
   <img src="https://img.shields.io/badge/PostgreSQL-16-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
