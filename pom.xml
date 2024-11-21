@@ -30,6 +30,8 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sonar.organization>dluks82</sonar.organization>
+        <sonar.host.url>https://sonar.dluks.dev</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
@@ -125,6 +127,19 @@
             <artifactId>postgresql</artifactId>
             <version>1.20.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.10.0.2594</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonarsource.java</groupId>
+            <artifactId>sonar-java-plugin</artifactId>
+            <version>7.35.0.36271</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
