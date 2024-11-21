@@ -151,7 +151,6 @@ public class CustomExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
 
-//        e.printStackTrace();
         logger.severe(e.getMessage());
 
         return ResponseEntity.status(status).body(error);
