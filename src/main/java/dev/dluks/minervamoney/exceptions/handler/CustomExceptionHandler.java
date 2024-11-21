@@ -79,6 +79,7 @@ public class CustomExceptionHandler {
 
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
+        logger.severe(e.getMessage());
         return ResponseEntity.status(status).body(error);
 
     }
@@ -90,6 +91,7 @@ public class CustomExceptionHandler {
 
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Invalid token", request, status);
+        logger.severe(e.getMessage());
         return ResponseEntity.status(status).body(error);
 
     }
@@ -101,6 +103,7 @@ public class CustomExceptionHandler {
 
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomErrorResponse error = createErrorResponse("Expired token", request, status);
+        logger.severe(e.getMessage());
         return ResponseEntity.status(status).body(error);
 
     }
@@ -148,7 +151,6 @@ public class CustomExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         CustomErrorResponse error = createErrorResponse(e.getMessage(), request, status);
 
-        e.printStackTrace();
         logger.severe(e.getMessage());
 
         return ResponseEntity.status(status).body(error);
